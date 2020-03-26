@@ -4,7 +4,6 @@ import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 
@@ -23,23 +22,37 @@ interface ServerData {
   data: Array<Todo_Type>;
 }
 
-const DEFAULT_TODOS = [{ id: "", name: "", description: "", dueDate: 0 }];
+const DEFAULT_TODO = { name: "", description: "", dueDate: 0, id: "" };
+const DEFAULT_TODOS = [DEFAULT_TODO];
 
 const App = () => {
   const [todos, setTodos] = useState(DEFAULT_TODOS);
+  const [newTodo, setNewTodo] = useState(DEFAULT_TODO);
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     axios.get("/api/todos").then((res: ServerData) => {
       setTodos(res.data);
     });
-    
-  }, );
+  });
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    console.log("MY FORM: ", event.target.value;
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, id } = event.target;
+    if (id === "description") {
+      setNewTodo({ ...newTodo, description: value });
+    } else if (id === "name") {
+      setNewTodo({ ...newTodo, name: value });
+    }
+  };
+
+  const handleSaveTodo = () => {
+    setModalOpen(false);
+    console.log("THIS IS WHERE NEW TODO WILL BE SAVED");
+  };
+
+  const handleCloseModal = () => {
+    setNewTodo(DEFAULT_TODO);
+    setModalOpen(false);
   };
 
   return (
@@ -84,38 +97,30 @@ const App = () => {
           </tbody>
         </Table>
       </div>
+
       <Modal show={modalOpen} onHide={() => setModalOpen(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>New Todo</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="formBasicEmail">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" />
-              <Form.Text className="text-muted">
-                We'll never share your email with anyone else.
-              </Form.Text>
+          <Form>
+            <Form.Group controlId="name" onChange={handleChange}>
+              <Form.Label>Name</Form.Label>
+              <Form.Control placeholder="Enter name" />
+              <Form.Text className="text-muted"></Form.Text>
             </Form.Group>
-            <Form.Group controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Password" />
-            </Form.Group>
-            <Form.Group controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Check me out" />
+            <Form.Group controlId="description" onChange={handleChange}>
+              <Form.Label>Description</Form.Label>
+              <Form.Control placeholder="Description" />
             </Form.Group>
             <Button type="submit">Submit form</Button>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" >
+          <Button onClick={handleCloseModal} variant="secondary">
             Close
           </Button>
-          <Button
-            type="submit"
-            variant="primary"
-            // onClick={() => setModalOpen(false)}
-          >
+          <Button type="submit" variant="primary" onClick={handleSaveTodo}>
             Save Changes
           </Button>
         </Modal.Footer>

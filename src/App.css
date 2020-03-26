@@ -24,4 +24,5 @@
 .Button {
   display: flex;
   justify-content: space-around;
+  height: 72px;
 }
