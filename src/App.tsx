@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 
@@ -24,14 +27,20 @@ const DEFAULT_TODOS = [{ id: "", name: "", description: "", dueDate: 0 }];
 
 const App = () => {
   const [todos, setTodos] = useState(DEFAULT_TODOS);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     axios.get("/api/todos").then((res: ServerData) => {
       setTodos(res.data);
     });
-  }, []);
+    
+  }, );
 
-  const onAdd = () => {};
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    console.log("MY FORM: ", event.target.value;
+  };
 
   return (
     <div className="App-header">
@@ -56,6 +65,7 @@ const App = () => {
                   <td>{todo.dueDate}</td>
                   <td className="Button">
                     <Button variant="warning">Delete</Button>
+                    <Button>Edit</Button>
                   </td>
                 </tr>
               );
@@ -66,12 +76,50 @@ const App = () => {
               <td>{""}</td>
               <td>{""}</td>
               <td className="Button">
-                <Button variant="primary">Add Todo</Button>
+                <Button onClick={() => setModalOpen(true)} variant="primary">
+                  Add Todo
+                </Button>
               </td>
             </tr>
           </tbody>
         </Table>
       </div>
+      <Modal show={modalOpen} onHide={() => setModalOpen(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control type="email" placeholder="Enter email" />
+              <Form.Text className="text-muted">
+                We'll never share your email with anyone else.
+              </Form.Text>
+            </Form.Group>
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control type="password" placeholder="Password" />
+            </Form.Group>
+            <Form.Group controlId="formBasicCheckbox">
+              <Form.Check type="checkbox" label="Check me out" />
+            </Form.Group>
+            <Button type="submit">Submit form</Button>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" >
+            Close
+          </Button>
+          <Button
+            type="submit"
+            variant="primary"
+            // onClick={() => setModalOpen(false)}
+          >
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
