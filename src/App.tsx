@@ -11,18 +11,14 @@ interface Todo_Type {
   id: string;
   name: string;
   description: string;
-  dueDate: number;
+  due_date: number;
 }
 
-interface ServerResponse {
-  data: ServerData;
-}
-
-interface ServerData {
+export interface ServerData {
   data: Array<Todo_Type>;
 }
 
-const DEFAULT_TODO = { name: "", description: "", dueDate: 0, id: "" };
+const DEFAULT_TODO = { name: "", description: "", due_date: 0, id: "" };
 const DEFAULT_TODOS = [DEFAULT_TODO];
 
 const App = () => {
@@ -75,7 +71,7 @@ const App = () => {
                   <td>{i}</td>
                   <td>{todo.name}</td>
                   <td>{todo.description}</td>
-                  <td>{todo.dueDate}</td>
+                  <td>{todo.due_date}</td>
                   <td className="Button">
                     <Button variant="warning">Delete</Button>
                     <Button>Edit</Button>
