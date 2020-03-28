@@ -27,7 +27,22 @@ const createTodo = (request, response) => {
       if (error) {
         throw error;
       }
-      response.status(201).send(`User added with ID: ${results.insertId}`);
+      response.status(201).send(`Todo added with ID: ${results.insertId}`);
+    }
+  );
+};
+
+const updateTodo = (request, response) => {
+  const { name, description, due_date, id } = request.body;
+
+  pool.query(
+    "UPDATE todos SET name=$1 ,description=$2, due_date=$3 WHERE id=$4",
+    [name, description, due_date, id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(201).send(`Todo updated with ID: ${results.insertId}`);
     }
   );
 };
@@ -45,5 +60,6 @@ const deleteTodo = (request, response) => {
 module.exports = {
   getTodos,
   createTodo,
-  deleteTodo
+  deleteTodo,
+  updateTodo
 };

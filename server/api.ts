@@ -12,6 +12,7 @@ app.use("/api", router);
 
 router.get("/todos", db.getTodos);
 router.post("/todos", db.createTodo);
+router.put("/todos", db.updateTodo);
 router.delete("/todos/:id", db.deleteTodo);
 
 app.listen(port, () =>

@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form";
+import Modal from "./Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 
-interface Todo_Type {
+export interface Todo_Type {
   id: number;
   name: string;
   description: string;
@@ -25,14 +24,13 @@ const App = () => {
   const [todos, setTodos] = useState(DEFAULT_TODOS);
   const [newTodo, setNewTodo] = useState(DEFAULT_TODO);
   const [modalOpen, setModalOpen] = useState(false);
+  const [inEditMode, setInEditMode] = useState(false);
 
   const getAllTodos = () => {
     axios.get("/api/todos").then((res: ServerData) => {
       setTodos(res.data);
     });
   };
-
-  const updateTodo = (id: number) => {};
 
   useEffect(() => {
     getAllTodos();
@@ -45,6 +43,15 @@ const App = () => {
     } else if (id === "name") {
       setNewTodo({ ...newTodo, name: value });
     }
+  };
+
+  const handleUpdateTodo = () => {
+    axios.put("/api/todos", newTodo).then(() => {
+      getAllTodos();
+    });
+    setModalOpen(false);
+    setInEditMode(false);
+    setNewTodo(DEFAULT_TODO);
   };
 
   const handleSaveTodo = () => {
@@ -64,6 +71,14 @@ const App = () => {
   const handleCloseModal = () => {
     setNewTodo(DEFAULT_TODO);
     setModalOpen(false);
+    setInEditMode(false);
+  };
+
+  const handleOpenEditModal = (id: number) => {
+    let todoToEdit = todos.filter(todo => todo.id === id)[0];
+    setNewTodo(todoToEdit);
+    setInEditMode(true);
+    setModalOpen(true);
   };
 
   return (
@@ -94,7 +109,9 @@ const App = () => {
                     >
                       Delete
                     </Button>
-                    <Button onClick={() => setModalOpen(true)}>Edit</Button>
+                    <Button onClick={() => handleOpenEditModal(todo.id)}>
+                      Edit
+                    </Button>
                   </td>
                 </tr>
               );
@@ -114,32 +131,14 @@ const App = () => {
         </Table>
       </div>
 
-      <Modal show={modalOpen} onHide={() => setModalOpen(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>New Todo</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="name" onChange={handleFormChange}>
-              <Form.Label>Name</Form.Label>
-              <Form.Control placeholder="Enter name" />
-              <Form.Text className="text-muted"></Form.Text>
-            </Form.Group>
-            <Form.Group controlId="description" onChange={handleFormChange}>
-              <Form.Label>Description</Form.Label>
-              <Form.Control placeholder="Description" />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={handleCloseModal} variant="secondary">
-            Close
-          </Button>
-          <Button type="submit" variant="primary" onClick={handleSaveTodo}>
-            Create
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <Modal
+        modalOpen={modalOpen}
+        closeModal={handleCloseModal}
+        handleFormChange={handleFormChange}
+        handleConfirm={inEditMode ? handleUpdateTodo : handleSaveTodo}
+        inEditMode={inEditMode}
+        newTodo={newTodo}
+      />
     </div>
   );
 };
