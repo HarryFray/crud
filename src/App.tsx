@@ -5,7 +5,6 @@ import Button from "react-bootstrap/Button";
 import Modal from "./Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-
 export interface Todo_Type {
   id: number;
   name: string;
@@ -20,7 +19,7 @@ export interface ServerData {
 const DEFAULT_TODO = { name: "", description: "", due_date: 0, id: 0 };
 const DEFAULT_TODOS = [DEFAULT_TODO];
 
-const App = () => {
+const App = ({ path }: { path: string }) => {
   const [todos, setTodos] = useState(DEFAULT_TODOS);
   const [newTodo, setNewTodo] = useState(DEFAULT_TODO);
   const [modalOpen, setModalOpen] = useState(false);
