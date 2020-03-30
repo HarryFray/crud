@@ -25,7 +25,6 @@ const App = () => {
   const [newTodo, setNewTodo] = useState(DEFAULT_TODO);
   const [modalOpen, setModalOpen] = useState(false);
   const [inEditMode, setInEditMode] = useState(false);
-
   const getAllTodos = () => {
     axios.get("/api/todos").then((res: ServerData) => {
       setTodos(res.data);
@@ -38,11 +37,7 @@ const App = () => {
 
   const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, id } = event.target;
-    if (id === "description") {
-      setNewTodo({ ...newTodo, description: value });
-    } else if (id === "name") {
-      setNewTodo({ ...newTodo, name: value });
-    }
+    setNewTodo({ ...newTodo, [id]: value });
   };
 
   const handleUpdateTodo = () => {
@@ -54,7 +49,7 @@ const App = () => {
     setNewTodo(DEFAULT_TODO);
   };
 
-  const handleSaveTodo = () => {
+  const handleCreateTodo = () => {
     setModalOpen(false);
     axios.post("/api/todos", newTodo).then(() => {
       getAllTodos();
@@ -130,12 +125,11 @@ const App = () => {
           </tbody>
         </Table>
       </div>
-
       <Modal
         modalOpen={modalOpen}
         closeModal={handleCloseModal}
         handleFormChange={handleFormChange}
-        handleConfirm={inEditMode ? handleUpdateTodo : handleSaveTodo}
+        handleConfirm={inEditMode ? handleUpdateTodo : handleCreateTodo}
         inEditMode={inEditMode}
         newTodo={newTodo}
       />

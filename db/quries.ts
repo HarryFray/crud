@@ -1,60 +1,50 @@
-const Pool = require("pg").Pool;
-
-const pool = new Pool({
-  user: "me",
-  host: "localhost",
-  database: "api",
-  password: "password",
-  port: 5432
+const knex = require("knex")({
+  client: "pg",
+  connection: {
+    user: "me",
+    host: "localhost",
+    database: "api",
+    password: "password",
+    port: 5432
+  },
+  searchPath: ["knex", "public"]
 });
 
-const getTodos = (request, response) => {
-  pool.query("SELECT * FROM todos ORDER BY id ASC", (error, results) => {
-    if (error) {
-      throw error;
-    }
-    response.status(200).json(results.rows);
-  });
+const getTodos = (_, response) => {
+  knex("todos")
+    .select("name", "id", "description", "due_date")
+    .then(results => {
+      response.status(200).json(results);
+    });
 };
 
 const createTodo = (request, response) => {
   const { name, description, due_date } = request.body;
-
-  pool.query(
-    "INSERT INTO todos (name, description, due_date) VALUES ($1, $2, $3)",
-    [name, description, due_date],
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      response.status(201).send(`Todo added with ID: ${results.insertId}`);
-    }
-  );
+  knex("todos")
+    .insert({ name, description, due_date })
+    .then(result => {
+      response.status(201).send(`Todo added with ID: ${result.id}`);
+    });
 };
 
 const updateTodo = (request, response) => {
   const { name, description, due_date, id } = request.body;
-
-  pool.query(
-    "UPDATE todos SET name=$1 ,description=$2, due_date=$3 WHERE id=$4",
-    [name, description, due_date, id],
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      response.status(201).send(`Todo updated with ID: ${results.insertId}`);
-    }
-  );
+  knex("todos")
+    .where({ id })
+    .update({ name, description, due_date })
+    .then(result => {
+      response.status(201).send(`Todo updated with ID: ${result.id}`);
+    });
 };
 
 const deleteTodo = (request, response) => {
   const id = parseInt(request.params.id);
-  pool.query("DELETE FROM todos WHERE id = $1", [id], (error, results) => {
-    if (error) {
-      throw error;
-    }
-    response.status(201).send(`Todo deleted with ID: ${id}`);
-  });
+  knex("todos")
+    .where({ id })
+    .del()
+    .then(() => {
+      response.status(201).send(`Todo deleted with ID: ${id}`);
+    });
 };
 
 module.exports = {

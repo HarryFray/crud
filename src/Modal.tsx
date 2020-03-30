@@ -31,15 +31,12 @@ const Modal = ({
         <Form>
           <Form.Group controlId="name" onChange={handleFormChange}>
             <Form.Label>Name</Form.Label>
-            <Form.Control placeholder="Enter name" value={newTodo.name} />
+            <Form.Control value={newTodo.name} />
             <Form.Text className="text-muted"></Form.Text>
           </Form.Group>
           <Form.Group controlId="description" onChange={handleFormChange}>
             <Form.Label>Description</Form.Label>
-            <Form.Control
-              placeholder="Description"
-              value={newTodo.description}
-            />
+            <Form.Control value={newTodo.description} />
           </Form.Group>
         </Form>
       </BSModal.Body>
