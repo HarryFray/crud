@@ -38,6 +38,10 @@ const Modal = ({
             <Form.Label>Description</Form.Label>
             <Form.Control value={newTodo.description} />
           </Form.Group>
+          <Form.Group controlId="due_date" onChange={handleFormChange}>
+            <Form.Label>Due Date</Form.Label>
+            <Form.Control value={newTodo.due_date} />
+          </Form.Group>
         </Form>
       </BSModal.Body>
       <BSModal.Footer>
