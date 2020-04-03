@@ -7,6 +7,9 @@ const knex = require("knex")({
     password: "password",
     port: 5432
   },
+  seeds: {
+    directory: "./seeds/dev"
+  },
   searchPath: ["knex", "public"]
 });
 
