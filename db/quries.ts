@@ -10,6 +10,9 @@ const knex = require("knex")({
   seeds: {
     directory: "./seeds/dev"
   },
+  migrations: {
+    tableName: "todos",
+  },
   searchPath: ["knex", "public"]
 });
 
