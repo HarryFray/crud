@@ -32,20 +32,23 @@ const Modal = ({
       </BSModal.Header>
       <BSModal.Body>
         <Form>
-          <Form.Group controlId="name" onChange={handleFormChange}>
+          <Form.Group controlId="name">
             <Form.Label>Name</Form.Label>
-            <Form.Control value={newTodo.name} />
+            <Form.Control value={newTodo.name} onChange={handleFormChange} />
             <Form.Text className="text-muted"></Form.Text>
           </Form.Group>
-          <Form.Group controlId="description" onChange={handleFormChange}>
+          <Form.Group controlId="description">
             <Form.Label>Description</Form.Label>
-            <Form.Control value={newTodo.description} />
+            <Form.Control
+              value={newTodo.description}
+              onChange={handleFormChange}
+            />
           </Form.Group>
           <Form.Group className="DatePicker">
             <Form.Label>Due Date</Form.Label>
             <DatePicker
               className="DateInput"
-              selected={newTodo.due_date}
+              selected={new Date(newTodo.due_date)}
               onChange={handleDateChange}
             />
           </Form.Group>
