@@ -4,7 +4,8 @@ import Button from "react-bootstrap/Button";
 import BSModal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { Todo_Type } from "./App";
-
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 interface Modal_Input_Type {
   closeModal: () => void;
   modalOpen: boolean;
@@ -12,6 +13,7 @@ interface Modal_Input_Type {
   handleConfirm: () => void;
   inEditMode: boolean;
   newTodo: Todo_Type;
+  handleDateChange: (date: Date) => void;
 }
 
 const Modal = ({
@@ -20,7 +22,8 @@ const Modal = ({
   handleFormChange,
   handleConfirm,
   inEditMode,
-  newTodo
+  newTodo,
+  handleDateChange
 }: Modal_Input_Type) => {
   return (
     <BSModal show={modalOpen} onHide={closeModal}>
@@ -38,9 +41,13 @@ const Modal = ({
             <Form.Label>Description</Form.Label>
             <Form.Control value={newTodo.description} />
           </Form.Group>
-          <Form.Group controlId="due_date" onChange={handleFormChange}>
+          <Form.Group className="DatePicker">
             <Form.Label>Due Date</Form.Label>
-            <Form.Control value={newTodo.due_date} />
+            <DatePicker
+              className="DateInput"
+              selected={null}
+              onChange={handleDateChange}
+            />
           </Form.Group>
         </Form>
       </BSModal.Body>

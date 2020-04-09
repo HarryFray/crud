@@ -9,7 +9,7 @@ import { Router } from "@reach/router";
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-      <App path="/" />
+      <App path="/"/>
       <Landing path="landing_page" />
     </Router>
   </React.StrictMode>,

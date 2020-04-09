@@ -26,3 +26,15 @@
   justify-content: space-around;
   height: 72px;
 }
+
+.DatePicker {
+  display: flex;
+  flex-direction: column;
+}
+
+.DateInput {
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  height: 38px;
+
+}

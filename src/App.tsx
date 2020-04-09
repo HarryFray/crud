@@ -9,14 +9,19 @@ export interface Todo_Type {
   id: number;
   name: string;
   description: string;
-  due_date: number;
+  due_date: Date;
 }
 
-export interface ServerData {
+export interface Todos_Type {
   data: Array<Todo_Type>;
 }
 
-const DEFAULT_TODO = { name: "", description: "", due_date: 0, id: 0 };
+const DEFAULT_TODO = {
+  name: "",
+  description: "",
+  due_date: new Date(),
+  id: 0
+};
 const DEFAULT_TODOS = [DEFAULT_TODO];
 
 const App = ({ path }: { path: string }) => {
@@ -25,7 +30,7 @@ const App = ({ path }: { path: string }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [inEditMode, setInEditMode] = useState(false);
   const getAllTodos = () => {
-    axios.get("/api/todos").then((res: ServerData) => {
+    axios.get("/api/todos").then((res: Todos_Type) => {
       setTodos(res.data);
     });
   };
@@ -33,6 +38,10 @@ const App = ({ path }: { path: string }) => {
   useEffect(() => {
     getAllTodos();
   });
+
+  const handleDateChange = (date: Date) => {
+    setNewTodo({ ...newTodo, due_date: date });
+  };
 
   const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, id } = event.target;
@@ -131,6 +140,7 @@ const App = ({ path }: { path: string }) => {
         handleConfirm={inEditMode ? handleUpdateTodo : handleCreateTodo}
         inEditMode={inEditMode}
         newTodo={newTodo}
+        handleDateChange={handleDateChange}
       />
     </div>
   );

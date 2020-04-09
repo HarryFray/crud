@@ -3,7 +3,7 @@ const up = knex => {
     table.increments("id");
     table.string("name", 255).notNullable();
     table.string("description", 255).notNullable();
-    table.integer("due_date");
+    table.date("due_date");
   });
 };
 
