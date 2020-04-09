@@ -22,10 +22,9 @@ const DEFAULT_TODO = {
   due_date: new Date(),
   id: 0
 };
-const DEFAULT_TODOS = [DEFAULT_TODO];
 
 const App = ({ path }: { path: string }) => {
-  const [todos, setTodos] = useState(DEFAULT_TODOS);
+  const [todos, setTodos] = useState([DEFAULT_TODO]);
   const [newTodo, setNewTodo] = useState(DEFAULT_TODO);
   const [modalOpen, setModalOpen] = useState(false);
   const [inEditMode, setInEditMode] = useState(false);
@@ -104,7 +103,7 @@ const App = ({ path }: { path: string }) => {
                   <td>{todo.id}</td>
                   <td>{todo.name}</td>
                   <td>{todo.description}</td>
-                  <td>{todo.due_date}</td>
+                  <td>{String(new Date(todo.due_date)).slice(0, 10)}</td>
                   <td className="Button">
                     <Button
                       onClick={() => handleDeleteTodo(todo.id)}

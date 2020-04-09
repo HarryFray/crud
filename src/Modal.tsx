@@ -45,7 +45,7 @@ const Modal = ({
             <Form.Label>Due Date</Form.Label>
             <DatePicker
               className="DateInput"
-              selected={null}
+              selected={newTodo.due_date}
               onChange={handleDateChange}
             />
           </Form.Group>
