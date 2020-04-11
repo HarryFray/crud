@@ -1,5 +1,4 @@
 import React from "react";
-import "./App.css";
 import Button from "react-bootstrap/Button";
 import BSModal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";

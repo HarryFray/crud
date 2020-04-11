@@ -12,7 +12,7 @@ export interface Todo_Type {
   due_date: Date;
 }
 
-export interface Todos_Type {
+interface Todos_Type {
   data: Array<Todo_Type>;
 }
 
