@@ -6,13 +6,15 @@ import Landing from "./Landing";
 import * as serviceWorker from "./serviceWorker";
 import { Router } from "@reach/router";
 import Layout from "./layout";
+import CrudRedux from "./crudRedux/CrudRedux";
 
 ReactDOM.render(
   <React.StrictMode>
     <Layout>
       <Router>
         <App path="/postgresql" />
-        <Landing path="landing_page" />
+        <CrudRedux path="/redux" />
+        <Landing path="home" />
       </Router>
     </Layout>
   </React.StrictMode>,
