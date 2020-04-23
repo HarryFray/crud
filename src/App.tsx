@@ -20,7 +20,7 @@ const DEFAULT_TODO = {
   name: "",
   description: "",
   due_date: new Date(),
-  id: 0
+  id: 0,
 };
 
 const App = ({ path }: { path: string }) => {
@@ -36,7 +36,7 @@ const App = ({ path }: { path: string }) => {
 
   useEffect(() => {
     getAllTodos();
-  });
+  }, []);
 
   const handleDateChange = (date: Date) => {
     setNewTodo({ ...newTodo, due_date: date });
@@ -77,7 +77,7 @@ const App = ({ path }: { path: string }) => {
   };
 
   const handleOpenEditModal = (id: number) => {
-    let todoToEdit = todos.filter(todo => todo.id === id)[0];
+    let todoToEdit = todos.filter((todo) => todo.id === id)[0];
     setNewTodo(todoToEdit);
     setInEditMode(true);
     setModalOpen(true);

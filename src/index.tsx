@@ -5,13 +5,16 @@ import App from "./App";
 import Landing from "./Landing";
 import * as serviceWorker from "./serviceWorker";
 import { Router } from "@reach/router";
+import Layout from "./layout";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
-      <App path="/"/>
-      <Landing path="landing_page" />
-    </Router>
+    <Layout>
+      <Router>
+        <App path="/postgresql" />
+        <Landing path="landing_page" />
+      </Router>
+    </Layout>
   </React.StrictMode>,
   document.getElementById("root")
 );
