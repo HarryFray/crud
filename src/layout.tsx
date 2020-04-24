@@ -7,7 +7,7 @@ const Layout: FunctionComponent = ({ children }) => {
   return (
     <>
       <Navbar bg="dark" variant="dark">
-        <Navbar.Brand href="home">State Managment Flavor</Navbar.Brand>
+        <Navbar.Brand href="/">State Managment Flavor</Navbar.Brand>
         <Nav className="mr-auto">
           <Nav.Link>
             <Link to="postgresql">🧊PostgreSql</Link>

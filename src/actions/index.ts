@@ -1,4 +1,4 @@
-import { Book } from "./CrudRedux";
+import { Book } from "../CrudRedux";
 /* Action Types */
 export const ADD_BOOK = "ADD_BOOK";
 export const DELETE_BOOK = "DELETE_BOOK";

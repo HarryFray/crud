@@ -15,6 +15,7 @@
     "@types/react-bootstrap": "^0.32.20",
     "@types/react-datepicker": "^2.11.0",
     "@types/react-dom": "^16.9.0",
+    "@types/react-redux": "^7.1.7",
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.4.1",
@@ -28,7 +29,9 @@
     "react-bootstrap": "^1.0.0",
     "react-datepicker": "^2.14.1",
     "react-dom": "^16.13.1",
+    "react-redux": "^7.2.0",
     "react-scripts": "3.4.1",
+    "redux": "^4.0.5",
     "tslint": "^6.1.0",
     "typescript": "^3.8.3"
   },

@@ -6,16 +6,23 @@ import Landing from "./Landing";
 import * as serviceWorker from "./serviceWorker";
 import { Router } from "@reach/router";
 import Layout from "./layout";
-import CrudRedux from "./crudRedux/CrudRedux";
+import CrudRedux from "./CrudRedux";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import rootReducer from "./reducers/index";
+
+const store = createStore(rootReducer);
 
 ReactDOM.render(
   <React.StrictMode>
     <Layout>
-      <Router>
-        <App path="/postgresql" />
-        <CrudRedux path="/redux" />
-        <Landing path="home" />
-      </Router>
+      <Provider store={store}>
+        <Router>
+          <App path="/postgresql" />
+          <CrudRedux path="/redux" />
+          <Landing path="/" />
+        </Router>
+      </Provider>
     </Layout>
   </React.StrictMode>,
   document.getElementById("root")
