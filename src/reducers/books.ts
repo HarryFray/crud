@@ -1,6 +1,10 @@
 import { ADD_BOOK, DELETE_BOOK, UPDATE_BOOK } from "../actions/index";
 import { Book } from "../CrudRedux";
 
+interface test {
+  id: string;
+}
+
 let Books = [
   {
     id: 1,
@@ -22,7 +26,10 @@ let Books = [
   },
 ];
 
-const books = (state = Books, action: { type: string; payload: Book }) => {
+const books = (
+  state: Book[] = Books,
+  action: { type: string; payload: Book }
+) => {
   let payload = action.payload;
   switch (action.type) {
     case ADD_BOOK:
@@ -36,15 +43,7 @@ const books = (state = Books, action: { type: string; payload: Book }) => {
         },
       ];
     case DELETE_BOOK:
-      return [
-        ...state,
-        {
-          id: payload.id,
-          title: payload.title,
-          author: payload.author,
-          percentComplete: payload.percentComplete,
-        },
-      ];
+      return state.filter((book) => book.id !== payload.id);
     case UPDATE_BOOK:
       return [
         ...state,

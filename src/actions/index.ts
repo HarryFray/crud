@@ -5,12 +5,12 @@ export const DELETE_BOOK = "DELETE_BOOK";
 export const UPDATE_BOOK = "UPDATE_BOOK";
 
 /* Action Creators */
-export function addBook(text: string) {
-  return { type: ADD_BOOK, text };
+export function addBook(book: Book) {
+  return { type: ADD_BOOK, payload: book };
 }
 
-export function deleteBook(index: number) {
-  return { type: DELETE_BOOK, index };
+export function deleteBook(book: Book) {
+  return { type: DELETE_BOOK, payload: book };
 }
 
 export function updateBook(book: Book) {
