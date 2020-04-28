@@ -10,10 +10,9 @@ export function addBook(book: Book) {
 }
 
 export function deleteBook(book: Book) {
-  console.log(book);
   return { type: DELETE_BOOK, payload: book };
 }
 
 export function updateBook(book: Book) {
-  return { type: UPDATE_BOOK, book };
+  return { type: UPDATE_BOOK, payload: book };
 }

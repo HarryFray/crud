@@ -8,15 +8,12 @@ import { Router } from "@reach/router";
 import Layout from "./layout";
 import CrudRedux from "./CrudRedux";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
-import rootReducer from "./reducers/index";
-
-const store = createStore(rootReducer);
+import x from "./reducers/index";
 
 ReactDOM.render(
   <React.StrictMode>
     <Layout>
-      <Provider store={store}>
+      <Provider store={x}>
         <Router>
           <App path="/postgresql" />
           <CrudRedux path="/redux" />

@@ -1,10 +1,6 @@
 import { ADD_BOOK, DELETE_BOOK, UPDATE_BOOK } from "../actions/index";
 import { Book } from "../CrudRedux";
 
-interface test {
-  id: string;
-}
-
 let Books = [
   {
     id: 1,
@@ -26,27 +22,12 @@ let Books = [
   },
 ];
 
-// (5) we can even provide multiple function signatures
-// "overload signatures"
-// function books(
-//   state: Book[],
-//   action: {
-//     type: "ADD_BOOK";
-//     payload: Book;
-//   }
-// ): Book[];
-
-// function books(
-//   state: Book[],
-//   action: { type: "DELETE_BOOK"; payload: number }
-// ): Book[];
-
-interface A {
-  type: "ADD_BOOK" | "DELETE_BOOK";
+export interface actionType {
+  type: "ADD_BOOK" | "DELETE_BOOK" | "UPDATE_BOOK";
   payload: Book;
 }
 
-function books(state: Book[] = Books, action: A): Book[] {
+function books(state: Book[] = Books, action: actionType): Book[] {
   let payload = action.payload;
   switch (action.type) {
     case ADD_BOOK:
@@ -61,16 +42,14 @@ function books(state: Book[] = Books, action: A): Book[] {
       ];
     case DELETE_BOOK:
       return state.filter((book) => book.id !== payload.id);
-    // case UPDATE_BOOK:
-    //   return [
-    //     ...state,
-    //     {
-    //       id: payload.id,
-    //       title: payload.title,
-    //       author: payload.author,
-    //       percentComplete: payload.percentComplete,
-    //     },
-    //   ];
+    case UPDATE_BOOK:
+      return state.map((book) => {
+        if (book.id === payload.id) {
+          return payload;
+        } else {
+          return book;
+        }
+      });
     default:
       return state;
   }

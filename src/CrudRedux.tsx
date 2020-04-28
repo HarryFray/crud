@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import ReduxForm from "./reduxForm";
-import { addBook, deleteBook } from "./actions/index";
+import { addBook, deleteBook, updateBook } from "./actions/index";
 export interface Book {
   id: number;
   title: string;
@@ -11,14 +11,16 @@ export interface Book {
 
 const CrudRedux = ({
   path,
+  update,
   books,
-  addBook,
-  deleteBook,
+  add,
+  del,
 }: {
-  path: string;
+  add: (book: Book) => { type: string; payload: Book };
+  update: (book: Book) => { type: string; payload: Book };
+  del: (book: Book) => { type: string; payload: Book };
   books: Book[];
-  addBook: (book: Book) => { type: string; payload: Book };
-  deleteBook: (book: Book) => { type: string; payload: Book };
+  path: string;
 }) => {
   let [currentBook, setCurrentBook] = useState({
     id: 0,
@@ -50,11 +52,11 @@ const CrudRedux = ({
                 <td>{book.author}</td>
                 <td>{book.percentComplete}%</td>
                 <td>
-                  <button onClick={() => deleteBook(book)}>Delete me :(</button>
+                  <button onClick={() => del(book)}>Delete me :(</button>
                 </td>
-                {/* <td>
-                  <button onClick={() => updateBook(book)}>Update me :]</button>
-                </td> */}
+                <td>
+                  <button onClick={() => setCurrentBook(book)}>edit</button>
+                </td>
               </tr>
             );
           })}
@@ -63,10 +65,29 @@ const CrudRedux = ({
       <ReduxForm onChange={onFormUpdate} currentBook={currentBook} />
       <button
         onClick={() => {
-          addBook(currentBook);
+          add(currentBook);
         }}
       >
         add book
+      </button>
+      <button
+        onClick={() => {
+          update(currentBook);
+        }}
+      >
+        update book
+      </button>
+      <button
+        onClick={() => {
+          setCurrentBook({
+            id: 0,
+            title: "",
+            author: "",
+            percentComplete: 1,
+          });
+        }}
+      >
+        clear
       </button>
     </>
   );
@@ -77,8 +98,9 @@ const mapState = (state: { books: Book[] }) => ({
 });
 
 const mapDispatch = {
-  addBook,
-  deleteBook,
+  add: addBook,
+  del: deleteBook,
+  update: updateBook,
 };
 
 export default connect(mapState, mapDispatch)(CrudRedux);
