@@ -10,6 +10,7 @@ export function addBook(book: Book) {
 }
 
 export function deleteBook(book: Book) {
+  console.log(book);
   return { type: DELETE_BOOK, payload: book };
 }
 

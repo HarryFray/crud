@@ -52,11 +52,15 @@ const CrudRedux = ({
                 <td>
                   <button onClick={() => deleteBook(book)}>Delete me :(</button>
                 </td>
+                {/* <td>
+                  <button onClick={() => updateBook(book)}>Update me :]</button>
+                </td> */}
               </tr>
             );
           })}
         </table>
       </div>
+      <ReduxForm onChange={onFormUpdate} currentBook={currentBook} />
       <button
         onClick={() => {
           addBook(currentBook);
@@ -64,7 +68,6 @@ const CrudRedux = ({
       >
         add book
       </button>
-      <ReduxForm onChange={onFormUpdate} currentBook={currentBook} />
     </>
   );
 };
