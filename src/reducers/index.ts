@@ -1,15 +1,19 @@
 import { combineReducers, createStore, applyMiddleware } from "redux";
-import books from "./books";
+import createSagaMiddleware from "redux-saga";
+import rootSaga from "./sagas";
 
-const logger = (store: any) => (next: any) => (action: any) => {
-  console.log("dispatching", action);
-  let result = next(action);
-  console.log("next state", store.getState());
-  return result;
-};
+import books from "./books";
+import heros from "./heros";
+
+// create the saga middleware
+const sagaMiddleware = createSagaMiddleware();
 
 var booksApp = combineReducers({
   books,
+  heros,
 });
 
-export default createStore(booksApp, applyMiddleware(logger));
+export default createStore(booksApp, applyMiddleware(sagaMiddleware));
+
+// then run the saga
+sagaMiddleware.run(rootSaga);

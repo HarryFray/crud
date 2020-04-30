@@ -13,6 +13,7 @@ const CrudRedux = ({
   path,
   update,
   books,
+  heros,
   add,
   del,
 }: {
@@ -21,6 +22,7 @@ const CrudRedux = ({
   del: (book: Book) => { type: string; payload: Book };
   books: Book[];
   path: string;
+  heros: { count: number };
 }) => {
   let [currentBook, setCurrentBook] = useState({
     id: 0,
@@ -34,9 +36,11 @@ const CrudRedux = ({
     const name = ev.currentTarget.name;
     setCurrentBook({ ...currentBook, [name]: value });
   };
+
   return (
     <>
       <div className="BookTable">
+        <h1>Hero Authors:{heros.count}</h1>
         <table>
           <tr>
             <th className="BookCol">#</th>
@@ -93,8 +97,9 @@ const CrudRedux = ({
   );
 };
 
-const mapState = (state: { books: Book[] }) => ({
+const mapState = (state: { books: Book[]; heros: { count: number } }) => ({
   books: state.books,
+  heros: state.heros,
 });
 
 const mapDispatch = {

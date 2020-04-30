@@ -3,6 +3,7 @@ import { Book } from "../CrudRedux";
 export const ADD_BOOK = "ADD_BOOK";
 export const DELETE_BOOK = "DELETE_BOOK";
 export const UPDATE_BOOK = "UPDATE_BOOK";
+export const ADD_HERO = "ADD_HERO";
 
 /* Action Creators */
 export function addBook(book: Book) {
