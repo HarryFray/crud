@@ -2,9 +2,7 @@ import { put, takeEvery, all, take } from "redux-saga/effects";
 import axios from "axios";
 import { Book } from "../CrudRedux";
 
-function* helloSaga() {
-  console.log("Hello Sagas!");
-}
+function* helloSaga() {}
 
 // Our worker Saga: will perform the async increment task
 export function* bookAdded(props: any) {
@@ -22,9 +20,9 @@ export function* bookAdded(props: any) {
   });
 
   if (typeof x.data === "string") {
-    console.log("not a hero bruh");
   } else {
-    yield put({ type: "ADD_HERO" });
+    // console.log(x.data.images.sm);
+    yield put({ type: "ADD_HERO", payload: x.data.images.xs });
   }
 }
 
