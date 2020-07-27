@@ -39,7 +39,7 @@ const CrudRedux = ({
   return (
     <>
       <div className="BookTable">
-        <h1>Hero Authors:{heros.count}</h1>
+        <h1 role="alert">Hero Authors:{heros.count}</h1>
         <table>
           <tr>
             <th className="BookCol">#</th>
