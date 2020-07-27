@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import ReduxForm from "./reduxForm";
 import { addBook, deleteBook, updateBook } from "./actions/index";
 export interface Book {
@@ -9,27 +9,22 @@ export interface Book {
   percentComplete: number;
 }
 
-const CrudRedux = ({
-  path,
-  update,
-  books,
-  heros,
-  add,
-  del,
-}: {
-  add: (book: Book) => { type: string; payload: Book };
-  update: (book: Book) => { type: string; payload: Book };
-  del: (book: Book) => { type: string; payload: Book };
-  books: Book[];
-  path: string;
-  heros: { count: number; images: string[] };
-}) => {
+const CrudRedux = ({ path }: { path: string }) => {
   let [currentBook, setCurrentBook] = useState({
     id: 0,
     title: "",
     author: "",
     percentComplete: 1,
   });
+
+  const dispatch = useDispatch();
+
+  console.log(dispatch);
+  const reduxState = useSelector(
+    (state: { books: Book[]; heros: { count: number; images: string[] } }) =>
+      state
+  );
+  let { books, heros } = reduxState;
 
   const onFormUpdate = (ev: React.ChangeEvent<HTMLInputElement>) => {
     const value = ev.currentTarget.value;
@@ -55,7 +50,9 @@ const CrudRedux = ({
                 <td>{book.author}</td>
                 <td>{book.percentComplete}%</td>
                 <td>
-                  <button onClick={() => del(book)}>Delete me :(</button>
+                  <button onClick={() => dispatch(deleteBook(book))}>
+                    Delete me :(
+                  </button>
                 </td>
                 <td>
                   <button onClick={() => setCurrentBook(book)}>edit</button>
@@ -68,14 +65,14 @@ const CrudRedux = ({
       <ReduxForm onChange={onFormUpdate} currentBook={currentBook} />
       <button
         onClick={() => {
-          add(currentBook);
+          dispatch(addBook(currentBook));
         }}
       >
         add book
       </button>
       <button
         onClick={() => {
-          update(currentBook);
+          dispatch(updateBook(currentBook));
         }}
       >
         update book
@@ -100,18 +97,4 @@ const CrudRedux = ({
   );
 };
 
-const mapState = (state: {
-  books: Book[];
-  heros: { count: number; images: string[] };
-}) => ({
-  books: state.books,
-  heros: state.heros,
-});
-
-const mapDispatch = {
-  add: addBook,
-  del: deleteBook,
-  update: updateBook,
-};
-
-export default connect(mapState, mapDispatch)(CrudRedux);
+export default CrudRedux;
